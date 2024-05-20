@@ -12,3 +12,5 @@ const daySchema = new Schema({
 const Day = model('Day', daySchema);
 
 module.exports = Day;
+
+//send as email?gi
