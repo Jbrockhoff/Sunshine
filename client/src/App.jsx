@@ -1,16 +1,20 @@
-import { useEffect } from 'react';
-import CarComponent from './components/CarComponent';
-// Importing our context provider which will make our global state available to child components
-import CarProvider from './utils/CarContext';
+import './App.css';
+import { Outlet } from 'react-router-dom';
+import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
 
-export default function App() {
-  useEffect(() => {
-    document.title = 'Digital Garage';
-  }, []);
+const client = new ApolloClient({
+  uri: '/graphql',
+  cache: new InMemoryCache(),
+});
 
+function App() {
   return (
-    <CarProvider>
-      <CarComponent />
-    </CarProvider>
+    <ApolloProvider client={client}>
+      <div className="flex-column justify-center align-center min-100-vh bg-primary">
+        <Outlet />
+      </div>
+    </ApolloProvider>
   );
 }
+
+export default App;
