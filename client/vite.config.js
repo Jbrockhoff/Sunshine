@@ -11,5 +11,12 @@ export default defineConfig({
   test: {
     globals: true,
     environment: 'happy-dom'
+  },
+  proxy: {
+    "/graphql": {
+      target: "http://localhost:3001",
+      changeOrigin: true,
+      secure: false
+    }
   }
 })
