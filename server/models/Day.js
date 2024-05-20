@@ -1,6 +1,7 @@
+//Completed
 const { Schema, model } = require('mongoose');
 
-const techSchema = new Schema({
+const daySchema = new Schema({
   name: {
     type: String,
     required: true,
@@ -8,6 +9,6 @@ const techSchema = new Schema({
   },
 });
 
-const Tech = model('Tech', techSchema);
+const Day = model('Day', daySchema);
 
-module.exports = Tech;
+module.exports = Day;
