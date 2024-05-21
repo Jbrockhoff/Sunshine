@@ -1,21 +1,21 @@
 const { Schema, model } = require('mongoose');
 
 const lessonsSchema = new Schema({
-  tech1: {
+  title: {
     type: String,
     required: true,
   },
-  tech2: {
+  lesson: {
     type: String,
     required: true,
   },
-  tech1_votes: {
-    type: Number,
-    default: 0,
+  goals: {
+    type: String,
+    required: true,
   },
-  tech2_votes: {
-    type: Number,
-    default: 0,
+  createdAt: {
+    type: Date,
+    default: Date.now,
   },
 });
 
