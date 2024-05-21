@@ -1,25 +1,34 @@
 const typeDefs = `
-  type Day {
+  type Room {
     _id: ID!
     name: String!
+    lessons: [Lesson]
   }
 
-  type Matchup {
+  type Lesson {
     _id: ID!
-    tech1: String!
-    tech2: String!
-    tech1_votes: Int
-    tech2_votes: Int
+    title: String!
+    description: String
+    date: String
+    documentation: [Documentation]
+  }
+
+  type Documentation {
+    _id: ID!
+    note: String!
+    createdAt: String!
   }
 
   type Query {
-    tech: [Tech]
-    matchups(_id: String): [Matchup]
+    rooms: [Room]
+    lessons(roomId: String): [Lesson]
+    documentation(lessonId: String): [Documentation]
   }
 
   type Mutation {
-    createMatchup(tech1: String!, tech2: String!): Matchup
-    createVote(_id: String!, techNum: Int!): Matchup
+    addRoom(name: String!, capacity: Int!): Room
+    addLesson(roomId: String!, title: String!, description: String, date: String): Lesson
+    addDocumentation(lessonId: String!, note: String!): Documentation
   }
 `;
 

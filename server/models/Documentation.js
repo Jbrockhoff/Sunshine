@@ -1,5 +1,13 @@
 const childSchema = new Schema({
-  note: {
+  domain: {
+    type: String,
+    required: true
+  },
+    note: {
+    type: String,
+    required: true,
+  },
+  goals: {
     type: String,
     required: true,
   },
@@ -10,12 +18,12 @@ const childSchema = new Schema({
 });
 
 const documentationSchema = new Schema({
-    name: {
-        type: String,
-        required: true,
-        unique: true
-    },
-    children: [childSchema]
+  name: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  children: [childSchema],
 });
 
 const Documentation = model("Documentation", documentationSchema);
