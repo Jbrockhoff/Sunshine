@@ -1,5 +1,5 @@
 const typeDefs = `
-  type Tech {
+  type Day {
     _id: ID!
     name: String!
   }
