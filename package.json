@@ -1,32 +1,19 @@
 {
-    "name": "main",
-    "private": true,
-    "version": "0.0.0",
-    "type": "module",
+    "name": "sunshine",
+    "version": "1.0.0",
+    "description": "",
+    "main": "server/server.js",
     "scripts": {
-      "dev": "vite",
-      "build": "vite build",
-      "lint": "eslint src --ext js,jsx --report-unused-disable-directives --max-warnings 0",
-      "preview": "vite preview",
-      "test": "vitest"
+      "start": "node server/server.js --ignore client",
+      "develop": "concurrently \"cd server && npm run watch\" \"cd client && npm run dev\"",
+      "install": "cd server && npm i && cd ../client && npm i",
+      "seed": "cd server && npm run seed",
+      "build": "cd client && npm run build"
     },
-    "dependencies": {
-      "@testing-library/react": "^14.0.0",
-      "happy-dom": "^9.20.3",
-      "react": "^18.2.0",
-      "react-dom": "^18.2.0",
-      "react-redux": "^8.0.7",
-      "redux": "^4.2.1",
-      "vitest": "^0.32.0"
-    },
+    "author": "",
+    "license": "ISC",
     "devDependencies": {
-      "@types/react": "^18.0.37",
-      "@types/react-dom": "^18.0.11",
-      "@vitejs/plugin-react": "^4.0.0",
-      "eslint": "^8.38.0",
-      "eslint-plugin-react": "^7.32.2",
-      "eslint-plugin-react-hooks": "^4.6.0",
-      "eslint-plugin-react-refresh": "^0.3.4",
-      "vite": "^4.4.5"
+      "concurrently": "^5.3.0"
     }
   }
+  
