@@ -1,4 +1,5 @@
-const Day = require('./day');
-const Matchup = require('./Matchup');
+const Room = require('./Room');
+const Lessons = require('./Lessons');
+const Documentation = require('./Documentation')
 
-module.exports = { Day, Matchup };
+module.exports = { Room, Lessons, Documentation };
