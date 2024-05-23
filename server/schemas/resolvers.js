@@ -1,9 +1,9 @@
-const { Room, Lessons, Documentation } = require('../models');
+const { Child, Lessons, Documentation } = require('../models');
 
 const resolvers = {
   Query: {
-    room: async () => {
-      return Room.find({});
+    children: async (parent, { roomId }) => {
+      return Child.find({ room: roomId });
     },
     lessons: async (parent, { roomId }) => {
       return Lessons.find({ room: roomId });
@@ -20,11 +20,15 @@ const resolvers = {
       return room;
     },
 
-    // createChild: async (parent, {roomId, })
+   createChild: async (parent, {roomId, childId, name, birthday, familyMembers }) => {
+      const child = await Child.create({ roomId, childId, name, birthday, familyMembers });
+      return child;
+   },
+     
 
     createLesson: async (parent, { roomId, title, lesson, goals, createdAt }) => {
       const lesson = await Lessons.create({ 
-        room: roomId, 
+       roomId, 
        title,
        lesson,
         goals, 
