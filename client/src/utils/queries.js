@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client';
-
+//copy/paste from graphql
 export const QUERY_TECH = gql`
   query tech {
     tech {

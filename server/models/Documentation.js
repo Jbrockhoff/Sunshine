@@ -1,9 +1,20 @@
-const childSchema = new Schema({
+const { Schema, model } = require("mongoose");
+
+const documentationSchema = new Schema({
+  childId: {
+    type: String,
+    ref: "Child",
+    required: true,
+  },
+  childName:{
+    type: String,
+    required: true,
+  },
   domain: {
     type: String,
-    required: true
+    required: true,
   },
-    note: {
+  note: {
     type: String,
     required: true,
   },
@@ -17,14 +28,7 @@ const childSchema = new Schema({
   },
 });
 
-const documentationSchema = new Schema({
-  name: {
-    type: String,
-    required: true,
-    unique: true,
-  },
-  children: [childSchema],
-});
+
 
 const Documentation = model("Documentation", documentationSchema);
 
