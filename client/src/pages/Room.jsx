@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
 import { QUERY_MATCHUPS } from '../utils/queries';
 
-const Home = () => {
+const Room = () => {
   const { loading, data } = useQuery(QUERY_MATCHUPS, {
     fetchPolicy: "no-cache"
   });
@@ -42,4 +42,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Room;
