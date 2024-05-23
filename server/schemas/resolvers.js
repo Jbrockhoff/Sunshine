@@ -1,28 +1,55 @@
-const { Tech, Matchup } = require('../models');
+const { Child, Lessons, Documentation } = require('../models');
 
 const resolvers = {
   Query: {
-    tech: async () => {
-      return Tech.find({});
+    children: async (parent, { roomId }) => {
+      return Child.find({ room: roomId });
     },
-    matchups: async (parent, { _id }) => {
+    lessons: async (parent, { roomId }) => {
+      return Lessons.find({ room: roomId });
+    },
+    documentation: async (parent, { _id }) => {
       const params = _id ? { _id } : {};
-      return Matchup.find(params);
-    },
+      return Documentation.find(params);
+    }
   },
+  
   Mutation: {
-    createMatchup: async (parent, args) => {
-      const matchup = await Matchup.create(args);
-      return matchup;
+    createRoom: async (parent, args) => {
+      const room = await Room.create(args);
+      return room;
     },
-    createVote: async (parent, { _id, techNum }) => {
-      const vote = await Matchup.findOneAndUpdate(
-        { _id },
-        { $inc: { [`tech${techNum}_votes`]: 1 } },
-        { new: true }
-      );
-      return vote;
+
+   createChild: async (parent, {roomId, childId, name, birthday, familyMembers }) => {
+      const child = await Child.create({ roomId, childId, name, birthday, familyMembers });
+      return child;
+   },
+     
+
+    createLesson: async (parent, { roomId, title, lesson, goals, createdAt }) => {
+      const lesson = await Lessons.create({ 
+       roomId, 
+       title,
+       lesson,
+        goals, 
+        createdAt 
+      });
+      return lesson;
     },
+  
+    createDocumentation: async (parent, { roomId, childName, domain, note, goals, createdAt }) => {
+      const lesson = await Documentation.create({ 
+        room: roomId, 
+        childName, 
+        domain, 
+        note, 
+        goals, 
+        createdAt 
+      });
+      return lesson;
+    },
+    
+
   },
 };
 

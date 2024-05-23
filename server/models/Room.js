@@ -1,17 +1,4 @@
-const childSchema = new Schema({
-  name: {
-    type: String,
-    required: true
-  },
-  birthday: {
-    type: Date,
-    required: true
-  },
-  parents: {
-    type: [String],
-    required: true
-  }
-});
+const { Schema, model } = require('mongoose');
 
 const roomSchema = new Schema({
   name: {
@@ -19,7 +6,9 @@ const roomSchema = new Schema({
     required: true,
     unique: true
   },
-  children: [childSchema]
+  children: [{ type: Schema.Types.ObjectId, ref: 'Child' }],
+  lessons: [{ type: Schema.Types.ObjectId, ref: 'Lesson' }],
+  documentation: [{ type: Schema.Types.ObjectId, ref: 'Documentation' }]
 });
 
 const Room = model('Room', roomSchema);
