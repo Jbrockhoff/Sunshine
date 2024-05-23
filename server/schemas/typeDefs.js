@@ -1,34 +1,79 @@
 const typeDefs = `
-  type Room {
+
+type Query {
+  room(roomId: ID!): Room
+}
+
+type Room {
+  _id: ID!
+  name: String!
+  children: [Child]
+  lessons: [Lesson]
+  documentation: [Documentation]
+}
+
+  type Child {
     _id: ID!
     name: String!
-    lessons: [Lesson]
+    birthday: Date!
+    familyMembers: String!
   }
 
   type Lesson {
     _id: ID!
+    room: [Room]
     title: String!
     description: String
     date: String
-    documentation: [Documentation]
   }
 
   type Documentation {
     _id: ID!
+    childName: String!
+    domain: String!
     note: String!
+    goals: String!
     createdAt: String!
   }
 
-  type Query {
-    rooms: [Room]
-    lessons(roomId: String): [Lesson]
-    documentation(lessonId: String): [Documentation]
-  }
 
   type Mutation {
-    addRoom(name: String!, capacity: Int!): Room
-    addLesson(roomId: String!, title: String!, description: String, date: String): Lesson
-    addDocumentation(lessonId: String!, note: String!): Documentation
+    createRoom(name: String!): Room
+    createChild(roomId: ID!, childId: ID!, name: String!, birthday: Date!, familyMembers: String!): Child
+    createLesson(roomId: ID!, title: String!, lesson: String!, goals: String!, createdAt: String!): Lesson
+    createDocumentation(roomId: ID!, childName: String!, domain: String!, note: String!, goals: String!, createdAt: String!): Documentation
+    updateRoom(roomId: ID!, updatedData: UpdateRoomInput!): Room
+    updateChild(roomId: ID!, childId: ID!, name: String!, birthday: Date!, familyMembers: String!): Child
+    updateLesson(_id: ID!, updatedData: UpdateLessonInput!): Lesson
+    updateDocumentation(_id: ID!, updatedData: UpdateDocumentationInput!): Documentation
+    deleteChild(childId: ID!): Child
+    deleteLesson(_id: ID!): Lesson
+    deleteDocumentation(_id: ID!): Documentation
+  }
+
+  input UpdateRoomInput {
+    name: String
+  }
+
+  input UpdateChildInput {
+    name: String
+    birthday: Date
+    familyMembers: String
+  }
+  
+  input UpdateLessonInput {
+    title: String
+    lesson: String
+    goals: String
+    createdAt: String
+  }
+
+  input UpdateDocumentationInput {
+    childName: String
+    domain: String
+    note: String
+    goals: String
+    createdAt: String
   }
 `;
 
