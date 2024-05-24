@@ -5,13 +5,13 @@ const lessonsSchema = new Schema({
     type: String,
     required: true,
   },
-  lesson: {
+  note: {
     type: String,
     required: true,
   },
-  goals: {
+    goals: {
     type: String,
-    required: true,
+    required: false,
   },
   createdAt: {
     type: Date,

@@ -15,14 +15,12 @@ const childSchema = new Schema({
     type: Date,
     required: true,
   },
-  familyMembers: {
+  primaryContact: {
     type: String,
     required: true,
   },
 });
 
-//Do I need this to be able to access the child id for documentation? 
-//Is it important to us to be able to look up the documentation by childid?
 childSchema.pre("save", function (next) {
   if (!this.childId) {
     this.childId = generateUniqueChildId();
