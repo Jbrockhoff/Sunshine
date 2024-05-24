@@ -20,6 +20,7 @@ const resolvers = {
       const room = await Room.create(args);
       return room;
     },
+
     // createChild: async (
     //   parent,
     //   { roomId, childId, name, birthday, familyMembers }
@@ -158,7 +159,6 @@ const resolvers = {
     //     throw new Error(`Error deleting document: ${error.message}`);
     //   }
     // },
-  },
 };
 
 module.exports = resolvers;
