@@ -2,23 +2,48 @@ const { Room, Child, Lessons, Documentation } = require("../models");
 
 const resolvers = {
   Query: {
-    children: async (parent, { roomId }) => {
-      return Child.find({ room: roomId });
+    rooms: async ()  => {
+      return await Room.find().populate("children");
     },
-    lessons: async (parent, { roomId }) => {
-      return Lessons.find({ room: roomId });
+    childrenByRoom: async (parent, { roomId }) => {
+      return await Child.find({ room: roomId }).populate("documentations");
+    },
+    children: async () => {
+      return await Child.find().populate("documentations");
+    },
+    lessons: async () => {
+      return await Lessons.find();
     },
     documentation: async (parent, { _id }) => {
-      return Documentation.find({ _id });
+      return await Documentation.find({ _id }).populate("child");
     },
+    documentations: async () => {
+      return await Documentation.find().populate({path: "child"})
+    }
   },
 
   Mutation: {
+
     createRoom: async (parent, args) => {
       const room = await Room.create(args);
       return room;
     },
-
+    addChildToRoom: async (parent, {roomId, childId}) => {
+      const room = await Room.findOneAndUpdate(
+        {
+          _id: roomId
+        },
+        {
+          $addToSet: {
+            children: childId
+          }
+        },
+        {
+          new: true
+        }
+      )
+      return room
+    },
     createChild: async (parent, { roomId, name, birthday, primaryContact }) => {
       const child = await Child.create({
         room: roomId,
@@ -26,33 +51,36 @@ const resolvers = {
         birthday,
         primaryContact,
       });
+      await Room.updateOne({_id: roomId}, {$push: {children: child._id}})
       return child;
     },
     createLesson: async (
       parent,
-      { roomId, title, lesson, goals, createdAt }
+      { title, note, goals }
     ) => {
       const newLesson = await Lessons.create({
-        room: roomId,
         title,
-        lesson,
+        note,
         goals,
-        createdAt,
       });
       return newLesson;
     },
     createDocumentation: async (
       parent,
-      { roomId, childName, domain, note, goals, createdAt }
+      { childId, domain, note, goals }
     ) => {
       const newDocumentation = await Documentation.create({
-        room: roomId,
-        childName,
+        child: childId,
         domain,
         note,
         goals,
-        createdAt,
       });
+      await Child.findOneAndUpdate(
+        {
+          _id: childId
+        },
+        {$addToSet: {documentations: newDocumentation._id}}
+      )
       return newDocumentation;
     },
     updateRoom: async (_, { roomId, updatedData }) => {
@@ -73,19 +101,14 @@ const resolvers = {
       }
     },
 
-    updateChild: async (parent, { childId, updatedData }) => {
+    updateChild: async (parent, { _id, updateChildInput}) => {
       try {
-        const child = await Child.findById(childId);
-
+        const child = await Child.findByIdAndUpdate(_id, {...updateChildInput}, {new: true});
         if (!child) {
           throw new Error("Child not found");
         }
 
-        Object.assign(child, updatedData);
-
-        const updatedChild = await child.save();
-
-        return updatedChild;
+        return child;
       } catch (error) {
         throw new Error(`Error updating child: ${error.message}`);
       }
@@ -110,15 +133,11 @@ const resolvers = {
     },
     updateDocumentation: async (_, { _id, updatedData }) => {
       try {
-        const documentation = await Documentation.findById(_id);
+        const updatedDocumentation = await Documentation.findByIdAndUpdate(_id, {...updatedData}, {new: true});
 
-        if (!documentation) {
+        if (!updatedDocumentation) {
           throw new Error("Document not found");
         }
-
-        Object.assign(documentation, updatedData);
-
-        const updatedDocumentation = await documentation.save();
 
         return updatedDocumentation;
       } catch (error) {
@@ -127,7 +146,7 @@ const resolvers = {
     },
     deleteChild: async (parent, { childId }) => {
       try {
-        const deletedChild = await Child.findOneAndDelete({ childId });
+        const deletedChild = await Child.findOneAndDelete({ _id: childId });
         if (!deletedChild) {
           throw new Error("Child not found");
         }

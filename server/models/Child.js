@@ -2,10 +2,9 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const childSchema = new Schema({
-  childId: {
-    type: String,
-    required: true,
-    unique: true,
+  room: {
+    type: Schema.Types.ObjectId,
+    ref: "Room",
   },
   name: {
     type: String,
@@ -19,18 +18,13 @@ const childSchema = new Schema({
     type: String,
     required: true,
   },
+  documentations: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Documentation",
+    },
+  ],
 });
-
-childSchema.pre("save", function (next) {
-  if (!this.childId) {
-    this.childId = generateUniqueChildId();
-  }
-  next();
-});
-
-function generateUniqueChildId() {
-    return shortid.generate();
-}
 
 const Child = mongoose.model("Child", childSchema);
 
