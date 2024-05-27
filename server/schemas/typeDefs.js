@@ -4,28 +4,27 @@ type Room {
   _id: ID!
   name: String!
   children: [Child]
-  lessons: [Lesson]
-  documentation: [Documentation]
 }
 
   type Child {
     _id: ID!
+    room: Room
     name: String!
     birthday: String!
     primaryContact: String!
+    documentations: [Documentation]
   }
 
   type Lesson {
     _id: ID!
-    room: [Room]
     title: String!
-    description: String!
+    note: String!
     date: String!
   }
 
   type Documentation {
     _id: ID!
-    childName: String!
+    child: Child
     domain: String!
     note: String!
     goals: String!
@@ -33,41 +32,41 @@ type Room {
   }
 
   input UpdateChildInput {
-    name: String!
-    birthday: String!
-    primaryContact: String!
-    createdAt: String!
+    name: String
+    birthday: String
+    primaryContact: String
   }
   
   input UpdateLessonInput {
-    title: String!
-    lesson: String!
-    goals: String!
-    createdAt: String!
+    title: String
+    note: String
+    goals: String
   }
 
   input UpdateDocumentationInput {
-    childName: String!
-    domain: String!
-    note: String!
-    goals: String!
-    createdAt: String!
+    child: ID
+    domain: String
+    note: String
+    goals: String
   }
 
   type Query {
-    room(roomId: ID!): Room
-    children(roomId: ID!) : [Child]
-    lessons(roomId: ID!) : [Lesson]
-    documentation(roomId: ID!) : [Documentation]
+    rooms: [Room]
+    childrenByRoom(roomId: ID!) : [Child]
+    children: [Child]
+    lessons: [Lesson]
+    documentation(_id: ID!) : Documentation
+    documentations: [Documentation]
   }
 
   type Mutation {
     createRoom(name: String!): Room
-    createChild(roomId: ID!, childId: ID!, name: String!, birthday: String!, primaryContact: String!): Child
-    createLesson(roomId: ID!, title: String!, lesson: String!, goals: String!, createdAt: String!): Lesson
-    createDocumentation(roomId: ID!, childName: String!, domain: String!, note: String!, goals: String!, createdAt: String!): Documentation
+    createChild(room: ID!, name: String!, birthday: String!, primaryContact: String!): Child
+    addChildToRoom(roomId: ID!, childId: ID!): Room
+    createLesson(title: String!, note: String!, goals: String!): Lesson
+    createDocumentation(childId: ID!, domain: String!, note: String!, goals: String!): Documentation
     updateRoom(roomId: ID!, name: String!): Room
-    updateChild(roomId: ID!, childId: ID!, name: String!, birthday: String!, primaryContact: String!): Child
+    updateChild(_id: ID!, updateChildInput: UpdateChildInput): Child
     updateLesson(_id: ID!, updatedData: UpdateLessonInput!): Lesson
     updateDocumentation(_id: ID!, updatedData: UpdateDocumentationInput!): Documentation
     deleteChild(childId: ID!): Child
