@@ -1,5 +1,5 @@
 const Room = require('./Room');
-const Child = require('./Child')
+const Child = require('./Child');
 const Lessons = require('./Lessons');
 const Documentation = require('./Documentation')
 

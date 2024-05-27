@@ -1,164 +1,183 @@
 const { Room, Child, Lessons, Documentation } = require("../models");
 
-//start here
 const resolvers = {
   Query: {
-    
-    children: async (parent, { roomId }) => {
-      return Child.find({ room: roomId });
+    rooms: async ()  => {
+      return await Room.find().populate("children");
     },
-    lessons: async (parent, { roomId }) => {
-      return Lessons.find({ room: roomId });
-  },
-  documentation: async (parent, { _id }) => {
-    return Documentation.find({ _id });
-  },
+    childrenByRoom: async (parent, { roomId }) => {
+      return await Child.find({ room: roomId }).populate("documentations");
+    },
+    children: async () => {
+      return await Child.find().populate("documentations");
+    },
+    lessons: async () => {
+      return await Lessons.find();
+    },
+    documentation: async (parent, { _id }) => {
+      return await Documentation.find({ _id }).populate("child");
+    },
+    documentations: async () => {
+      return await Documentation.find().populate({path: "child"})
+    }
   },
 
   Mutation: {
+
     createRoom: async (parent, args) => {
       const room = await Room.create(args);
       return room;
     },
+    addChildToRoom: async (parent, {roomId, childId}) => {
+      const room = await Room.findOneAndUpdate(
+        {
+          _id: roomId
+        },
+        {
+          $addToSet: {
+            children: childId
+          }
+        },
+        {
+          new: true
+        }
+      )
+      return room
+    },
+    createChild: async (parent, { roomId, name, birthday, primaryContact }) => {
+      const child = await Child.create({
+        room: roomId,
+        name,
+        birthday,
+        primaryContact,
+      });
+      await Room.updateOne({_id: roomId}, {$push: {children: child._id}})
+      return child;
+    },
+    createLesson: async (
+      parent,
+      { title, note, goals }
+    ) => {
+      const newLesson = await Lessons.create({
+        title,
+        note,
+        goals,
+      });
+      return newLesson;
+    },
+    createDocumentation: async (
+      parent,
+      { childId, domain, note, goals }
+    ) => {
+      const newDocumentation = await Documentation.create({
+        child: childId,
+        domain,
+        note,
+        goals,
+      });
+      await Child.findOneAndUpdate(
+        {
+          _id: childId
+        },
+        {$addToSet: {documentations: newDocumentation._id}}
+      )
+      return newDocumentation;
+    },
+    updateRoom: async (_, { roomId, updatedData }) => {
+      try {
+        const room = await Room.findById(roomId);
 
-    // createChild: async (
-    //   parent,
-    //   { roomId, childId, name, birthday, familyMembers }
-    // ) => {
-    //   const child = await Child.create({
-    //     roomId,
-    //     childId,
-    //     name,
-    //     birthday,
-    //     familyMembers,
-    //   });
-    //   return child;
-    // },
-    // createLesson: async (
-    //   parent,
-    //   { roomId, title, lesson, goals, createdAt }
-    // ) => {
-    //   return await Lessons.create({
-    //     roomId,
-    //     title,
-    //     lesson,
-    //     goals,
-    //     createdAt,
-    //   });
-    // },
-    // createDocumentation: async (
-    //   parent,
-    //   { roomId, childName, domain, note, goals, createdAt }
-    // ) => {
-    //   return await Documentation.create({
-    //     room: roomId,
-    //     childName,
-    //     domain,
-    //     note,
-    //     goals,
-    //     createdAt,
-    //   });
+        if (!room) {
+          throw new Error("Room not found");
+        }
 
-    // },
-    // updateRoom: async (_, { roomID, updatedData}) => {
-    //   try {
-    //     const room = await Room.findById(roomId);
+        Object.assign(room, updatedData);
 
-    //     if (!room) {
-    //       throw new Error("Room not found");
-    //     }
-    //     Object.assign(room, updatedData);
+        const updatedRoom = await room.save();
 
-    //     const updatedRoom = await room.save();
+        return updatedRoom;
+      } catch (error) {
+        throw new Error(`Error updating room: ${error.message}`);
+      }
+    },
 
-    //     return updatedRoom;
-    //   } catch (error) {
-    //     throw new Error(`Error updating room: ${error.message}`);
-    //   }
-    // },
-    // updateChild: async (_, { childId, updatedData }) => {
-    //   try {
-    //     const child = await Child.findById(childId);
+    updateChild: async (parent, { _id, updateChildInput}) => {
+      try {
+        const child = await Child.findByIdAndUpdate(_id, {...updateChildInput}, {new: true});
+        if (!child) {
+          throw new Error("Child not found");
+        }
 
-    //     if (!child) {
-    //       throw new Error("Child not found");
-    //     }
-    //     Object.assign(child, updatedData);
+        return child;
+      } catch (error) {
+        throw new Error(`Error updating child: ${error.message}`);
+      }
+    },
 
-    //     const updatedChild = await child.save();
+    updateLesson: async (_, { _id, updatedData }) => {
+      try {
+        const lesson = await Lessons.findById(_id);
 
-    //     return updatedChild;
-    //   } catch (error) {
-    //     throw new Error(`Error updating child: ${error.message}`);
-    //   }
-    // },
-    // updateLesson: async (_, { _id, updatedData }) => {
-    //   try {
-    //     const lesson = await Lessons.findById(_id);
+        if (!lesson) {
+          throw new Error("Lesson not found");
+        }
 
-    //     if (!lesson) {
-    //       throw new Error("Lesson not found");
-    //     }
+        Object.assign(lesson, updatedData);
 
-    //     Object.assign(lesson, updatedData);
+        const updatedLesson = await lesson.save();
 
-    //     const updatedLesson = await lesson.save();
+        return updatedLesson;
+      } catch (error) {
+        throw new Error(`Error updating lesson: ${error.message}`);
+      }
+    },
+    updateDocumentation: async (_, { _id, updatedData }) => {
+      try {
+        const updatedDocumentation = await Documentation.findByIdAndUpdate(_id, {...updatedData}, {new: true});
 
-    //     return updatedLesson;
-    //   } catch (error) {
-    //     throw new Error(`Error updating lesson: ${error.message}`);
-    //   }
-    // },
-    // updateDocumentation: async (_, { _id, updatedData }) => {
-    //   try {
-    //     const documentation = await Documentation.findById(_id);
+        if (!updatedDocumentation) {
+          throw new Error("Document not found");
+        }
 
-    //     if (!documentation) {
-    //       throw new Error("Document not found");
-    //     }
-
-    //     Object.assign(documentation, updatedData);
-
-    //     const updatedDocumentation = await documentation.save();
-
-    //     return updatedDocumentation;
-    //   } catch (error) {
-    //     throw new Error(`Error updating document: ${error.message}`);
-    //   }
-    // },
-    // deleteChild: async (parent, { childId }) => {
-    //   try {
-    //     const deletedChild = await Child.findOneAndDelete({ childId });
-    //     if (!deletedChild) {
-    //       throw new Error("Child not found");
-    //     }
-    //     return deletedChild;
-    //   } catch (error) {
-    //     throw new Error(`Error deleting child: ${error.message}`);
-    //   }
-    // },
-    // deleteLesson: async (parent, { _id }) => {
-    //   try {
-    //     const deletedLesson = await Lessons.findByIdAndDelete(_id);
-    //     if (!deletedLesson) {
-    //       throw new Error("Lesson not found");
-    //     }
-    //     return deletedLesson;
-    //   } catch (error) {
-    //     throw new Error(`Error deleting lesson: ${error.message}`);
-    //   }
-    // },
-    // deleteDocumentation: async (parent, { _id }) => {
-    //   try {
-    //     const deletedDocumentation = await Documentation.findByIdAndDelete(_id);
-    //     if (!deletedDocumentation) {
-    //       throw new Error("Document not found");
-    //     }
-    //     return deletedDocumentation;
-    //   } catch (error) {
-    //     throw new Error(`Error deleting document: ${error.message}`);
-    //   }
-    // },
+        return updatedDocumentation;
+      } catch (error) {
+        throw new Error(`Error updating document: ${error.message}`);
+      }
+    },
+    deleteChild: async (parent, { childId }) => {
+      try {
+        const deletedChild = await Child.findOneAndDelete({ _id: childId });
+        if (!deletedChild) {
+          throw new Error("Child not found");
+        }
+        return deletedChild;
+      } catch (error) {
+        throw new Error(`Error deleting child: ${error.message}`);
+      }
+    },
+    deleteLesson: async (parent, { _id }) => {
+      try {
+        const deletedLesson = await Lessons.findByIdAndDelete(_id);
+        if (!deletedLesson) {
+          throw new Error("Lesson not found");
+        }
+        return deletedLesson;
+      } catch (error) {
+        throw new Error(`Error deleting lesson: ${error.message}`);
+      }
+    },
+    deleteDocumentation: async (parent, { _id }) => {
+      try {
+        const deletedDocumentation = await Documentation.findByIdAndDelete(_id);
+        if (!deletedDocumentation) {
+          throw new Error("Document not found");
+        }
+        return deletedDocumentation;
+      } catch (error) {
+        throw new Error(`Error deleting document: ${error.message}`);
+      }
+    }
+  },
 };
 
 module.exports = resolvers;
