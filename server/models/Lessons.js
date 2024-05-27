@@ -13,12 +13,12 @@ const lessonsSchema = new Schema({
     type: String,
     required: false,
   },
-  createdAt: {
+  date: {
     type: Date,
     default: Date.now,
   },
 });
 
-const Lessons = model('Lessons', lessonsSchema);
+const Lessons = model("Lessons", lessonsSchema);
 
 module.exports = Lessons;

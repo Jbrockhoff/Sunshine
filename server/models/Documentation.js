@@ -1,13 +1,9 @@
 const { Schema, model } = require("mongoose");
 
 const documentationSchema = new Schema({
-  childId: {
-    type: String,
+  child: {
+    type: Schema.Types.ObjectId,
     ref: "Child",
-    required: true,
-  },
-  childName:{
-    type: String,
     required: true,
   },
   domain: {

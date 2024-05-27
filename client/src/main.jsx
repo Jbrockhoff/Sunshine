@@ -16,7 +16,7 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <Home />
+        element: <HSignin />
       }, {
         path: '/matchup',
         element: <Matchup />
