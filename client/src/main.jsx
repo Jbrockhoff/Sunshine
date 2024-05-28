@@ -17,19 +17,30 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <Signin />
       }, {
-        path: '/room',
-        element: <Room />
-        children: 
-      }, {
-        path: '/room/:id',
-        element: </>
-      },
+        path: '/Room',
+        element: <Room />,
+        children: [
+          {
+            path: '/children',
+            element: <Children />
+          },
+          {
+            path: '/Documentation',
+            element: <Documentation />
+          },
+          {
+            path: '/Lessons',
+            element: <Lessons />
+          }
+        ]
+      }, 
     ],
   },
 ]);
 
+export default routes;
+
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <RouterProvider router={router} />
+  <RouterProvider router={routes} />
 );
