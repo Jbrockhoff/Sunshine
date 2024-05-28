@@ -1,45 +1,46 @@
-import ReactDOM from 'react-dom/client';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { BrowserRouter as Router, useRoutes } from 'react-router-dom';
 
 import App from './App.jsx';
 import Room from './pages/Room';
-import Lessons from './pages/Lessons';
+import Children from './pages/Children';
 import Documentation from './pages/Documentation';
-import Signin from './pages/Signin';
-import NotFound from './pages/NotFound';
+import Lessons from './pages/Lessons';
 
-const router = createBrowserRouter([
+const routes = [
   {
     path: '/',
     element: <App />,
-    errorElement: <NotFound />,
     children: [
       {
-        index: true,
-      }, {
-        path: '/Room',
+        path: 'room',
         element: <Room />,
         children: [
           {
-            path: '/children',
+            path: 'children',
             element: <Children />
           },
           {
-            path: '/Documentation',
+            path: 'documentation',
             element: <Documentation />
           },
           {
-            path: '/Lessons',
+            path: 'lessons',
             element: <Lessons />
           }
         ]
       }, 
     ],
   },
-]);
+];
 
-export default routes;
+function Routes() {
+  return useRoutes(routes);
+}
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <RouterProvider router={routes} />
+  <Router>
+    <Routes />
+  </Router>
 );
