@@ -24,6 +24,24 @@ const resolvers = {
 
   Mutation: {
 
+    roomLogin: async (parent, { roomId, password }) => {
+      const room = await Room.findOne({ _id: roomId });
+      
+      if (!room) {
+        return false
+      
+      };
+
+      const isCorrectPassword = await room.isCorrectPassword(password)
+
+      if (!isCorrectPassword) {
+        console.log("Password not valid")
+        return false
+    //why is password not valid- model, seeds, and this
+      };
+
+      return true
+    },
     createRoom: async (parent, args) => {
       const room = await Room.create(args);
       return room;

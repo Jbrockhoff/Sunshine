@@ -60,6 +60,7 @@ type Room {
   }
 
   type Mutation {
+    roomLogin(roomId: ID!, password: String!): Boolean
     createRoom(name: String!): Room
     createChild(room: ID!, name: String!, birthday: String!, primaryContact: String!): Child
     addChildToRoom(roomId: ID!, childId: ID!): Room
