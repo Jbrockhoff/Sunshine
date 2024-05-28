@@ -1,3 +1,4 @@
+import React from 'react';
 import { useQuery, useMutation } from '@apollo/client';
 import { useParams, Link } from 'react-router-dom';
 import { CREATE_VOTE } from '../utils/mutations';
@@ -32,30 +33,12 @@ const Documentation = () => {
       {loading ? (
         <div>Loading...</div>
       ) : (
-        <div className="card-body text-center mt-3">
-          <h2>
-            {matchup[0].tech1} vs. {matchup[0].tech2}
-          </h2>
-          <h3>
-            {matchup[0].tech1_votes} : {matchup[0].tech2_votes}
-          </h3>
-          <button className="btn btn-info" onClick={() => handleVote(1)}>
-            Vote for {matchup[0].tech1}
-          </button>{' '}
-          <button className="btn btn-info" onClick={() => handleVote(2)}>
-            Vote for {matchup[0].tech2}
-          </button>
-          <div className="card-footer text-center m-3">
-            <br></br>
-            <Link to="/">
-              <button className="btn btn-lg btn-danger">
-                View all matchups
-              </button>
-            </Link>
-          </div>
+        <div className="blog-post">
+          <h2 className="blog-post-title">Blog Post Title</h2>
+          <p className="blog-post-meta">January 1, 2022 by <a href="#">Author</a></p>
+          <p>This is some sample blog post content. You can replace this with actual content.</p>
         </div>
       )}
-      {error && <div>Something went wrong...</div>}
     </div>
   );
 };
