@@ -1,14 +1,18 @@
 [
     {
-        "name": "Room 1"
+        "name": "Room 1",
+        "password": "password123"
     },
     {
-        "name": "Room 2"
+        "name": "Room 2",
+        "password": "password1234"
     },
     {
-        "name": "Room 3"
+        "name": "Room 3",
+        "password": "passwordABC"
     },
     {
-        "name": "Room 4"
+        "name": "Room 4",
+        "password": "passwordDEF"
     }
 ]
