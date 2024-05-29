@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client';
+import { gql } from "@apollo/client";
 
 export const QUERY_CHILDREN = gql`
 query Children {
@@ -16,5 +16,4 @@ query Children {
       }
       }
   }
-}
-`
+`;
