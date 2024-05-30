@@ -33,7 +33,7 @@ query Documentation($id: ID!) {
   documentation(_id: $id) {
     _id
     child {
-      
+      name
     }
     domain
     note
@@ -44,7 +44,7 @@ query Documentation($id: ID!) {
 `
 
 export const QUERY_DOCUMENTATIONS = gql`
-uery Documentations {
+query Documentations {
   documentations {
     _id
     child {
