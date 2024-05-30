@@ -1,3 +1,5 @@
+import React from 'react';
+import './App.css'; // Import the CSS file
 import { Link } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
 import { QUERY_CHILD } from '../utils/queries';

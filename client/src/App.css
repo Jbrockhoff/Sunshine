@@ -1,3 +1,65 @@
+/* Enhanced CSS for Signin.jsx */
+.signin {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease;
+}
+
+.signin:hover {
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
+}
+.signin button {
+  padding: 10px 20px;
+  margin-top: 10px;
+  background-color: #007BFF;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.signin button:hover {
+  background-color: #0056b3;
+}
+
+/* Responsive design */
+@media (max-width: 600px) {
+  .signin {
+    width: 100%;
+    padding: 10px;
+  }
+}
+/* CSS for Room.jsx */
+.card-rounded {
+  border-radius: 15px;
+}
+
+.card-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.card-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.square li {
+  list-style-type: square;
+  margin-bottom: 10px;
+}
+
+
 /* Basic Styles
    ========================================================================== */
 body {
