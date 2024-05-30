@@ -1,4 +1,5 @@
-const { Room, Child, Lessons, Documentation } = require("../models");
+const {signToken, AuthenticationError } = require("../utils/auth");
+const { Room, Child, Lessons, Documentation, User } = require("../models");
 
 const resolvers = {
   Query: {
@@ -6,7 +7,9 @@ const resolvers = {
       return await Room.find().populate("children");
     },
     childrenByRoom: async (parent, { roomId }) => {
-      return await Child.find({ room: roomId }).populate("documentations");
+      
+      const room = await Room.find({ _id: roomId }).populate({path: "children", populate: {path: "documentations"}});
+      return room[0]
     },
     children: async () => {
       return await Child.find().populate("documentations");
@@ -23,24 +26,33 @@ const resolvers = {
   },
 
   Mutation: {
-
-    roomLogin: async (parent, { roomId, password }) => {
-      const room = await Room.findOne({ _id: roomId });
+    signup: async (parent, { username, email, password }) => {
+      const user = await User.create({ username, email, password })
+      user.rooms = await Room.create({ name: `${user.username}'s Room`})
+      await user.save()
+      const returnUser = await User.find({_id: user._id}).populate("rooms")
+    
+      const token = signToken(returnUser)
       
-      if (!room) {
-        return false
+      return {token, user: returnUser[0]}
+
+    },
+    login: async (parent, { email, password }) => {
+      const user = await User.findOne({ email }).populate("rooms");
+      
+      if (!user) {
+        throw AuthenticationError
       
       };
 
-      const isCorrectPassword = await room.isCorrectPassword(password)
+      const isCorrectPassword = await user.isCorrectPassword(password)
 
       if (!isCorrectPassword) {
-        console.log("Password not valid")
-        return false
-    //why is password not valid- model, seeds, and this
+        throw AuthenticationError
       };
-
-      return true
+      
+      const token = signToken(user)
+      return {token, user}
     },
     createRoom: async (parent, args) => {
       const room = await Room.create(args);

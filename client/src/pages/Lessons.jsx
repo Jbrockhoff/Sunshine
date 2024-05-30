@@ -62,4 +62,4 @@ const Lessons = () => {
   );
 };
 
-export default ParentLessons;
+export default Lessons;

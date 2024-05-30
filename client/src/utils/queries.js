@@ -1,18 +1,25 @@
-import { gql } from '@apollo/client';
+import { gql } from "@apollo/client";
 
-export const QUERY_ROOM = gql`
-query Rooms {
-  rooms {
-    _id
-    name
+export const QUERY_CHILDREN_BY_ROOM = gql`
+query ChildrenByRoom($roomId: ID!) {
+  childrenByRoom(roomId: $roomId) {
     children {
+      primaryContact
       name
       birthday
+      _id
+      documentations {
+        _id
+        domain
+        note
+        goals
+        createdAt
+      }
     }
+    name
+    _id
   }
-}
-`
-
+}`
 export const QUERY_LESSONS = gql`
 query Lessons {
   lessons {
@@ -28,7 +35,7 @@ query Documentation($id: ID!) {
   documentation(_id: $id) {
     _id
     child {
-      
+      name
     }
     domain
     note
@@ -39,7 +46,7 @@ query Documentation($id: ID!) {
 `
 
 export const QUERY_DOCUMENTATIONS = gql`
-uery Documentations {
+query Documentations {
   documentations {
     _id
     child {
