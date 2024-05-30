@@ -1,10 +1,9 @@
 import { Link } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
-import { QUERY_CHILD } from '../utils/queries';
-import logo from '../assets/logo.png'; // import your logo
+import { QUERY_CHILDREN } from '../utils/queries';
 
 const Room = () => {
-  const { loading, data } = useQuery(QUERY_CHILD, {
+  const { loading, data } = useQuery(QUERY_CHILDREN, {
     fetchPolicy: "no-cache"
   });
 

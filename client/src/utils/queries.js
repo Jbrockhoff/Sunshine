@@ -1,14 +1,19 @@
-import { gql } from '@apollo/client';
+import { gql } from "@apollo/client";
 
-export const QUERY_ROOM = gql`
-query Rooms {
-  rooms {
-    _id
+export const QUERY_CHILDREN = gql`
+query Children {
+  children {
+    birthday
     name
-    children {
-      name
-      birthday
-    }
+    primaryContact
+    _id
+    documentations{
+      _id
+      createdAt
+      domain
+      goals
+      note
+      }
   }
 }
 `
