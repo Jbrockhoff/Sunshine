@@ -1,23 +1,25 @@
 import { gql } from "@apollo/client";
 
-export const QUERY_CHILDREN = gql`
-query Children {
-  children {
-    birthday
-    name
-    primaryContact
-    _id
-    documentations{
+export const QUERY_CHILDREN_BY_ROOM = gql`
+query ChildrenByRoom($roomId: ID!) {
+  childrenByRoom(roomId: $roomId) {
+    children {
+      primaryContact
+      name
+      birthday
       _id
-      createdAt
-      domain
-      goals
-      note
+      documentations {
+        _id
+        domain
+        note
+        goals
+        createdAt
       }
+    }
+    name
+    _id
   }
-}
-`
-
+}`
 export const QUERY_LESSONS = gql`
 query Lessons {
   lessons {
