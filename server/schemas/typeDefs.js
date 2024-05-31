@@ -1,5 +1,17 @@
 const typeDefs = `
 
+type User {
+  _id: ID!
+  username: String!
+  email: String!
+  rooms: [Room]
+}
+
+type Auth {
+  token: ID!
+  user: User
+}
+
 type Room {
   _id: ID!
   name: String!
@@ -51,8 +63,9 @@ type Room {
   }
 
   type Query {
+    me: User
     rooms: [Room]
-    childrenByRoom(roomId: ID!) : [Child]
+    childrenByRoom(roomId: ID!) : Room
     children: [Child]
     lessons: [Lesson]
     documentation(_id: ID!) : Documentation
@@ -60,6 +73,8 @@ type Room {
   }
 
   type Mutation {
+    login(email: String!, password: String!): Auth
+    signup(email: String!, username: String!, password: String!): Auth
     createRoom(name: String!): Room
     createChild(room: ID!, name: String!, birthday: String!, primaryContact: String!): Child
     addChildToRoom(roomId: ID!, childId: ID!): Room

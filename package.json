@@ -16,7 +16,12 @@
         "concurrently": "^5.3.0"
     },
     "dependencies": {
+<<<<<<< HEAD
         "install": "^0.13.0",
         "mongoose": "^8.4.0"
+=======
+        "bcrypt": "^5.1.1",
+        "dayjs": "^1.11.11"
+>>>>>>> 80c66936605e6da110930962c25aedc991802ad0
     }
 }

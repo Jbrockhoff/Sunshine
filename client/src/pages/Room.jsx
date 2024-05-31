@@ -1,21 +1,25 @@
+<<<<<<< HEAD
 import React from 'react';
 import './App.css'; // Import the CSS file
 import { Link } from 'react-router-dom';
+=======
+import { Link, useParams } from 'react-router-dom';
+>>>>>>> 80c66936605e6da110930962c25aedc991802ad0
 import { useQuery } from '@apollo/client';
-import { QUERY_CHILD } from '../utils/queries';
-import logo from '../assets/logo.png'; // import your logo
+import { QUERY_CHILDREN_BY_ROOM } from '../utils/queries';
 
 const Room = () => {
-  const { loading, data } = useQuery(QUERY_CHILD, {
+  const {id} = useParams()
+  const { loading, data } = useQuery(QUERY_CHILDREN_BY_ROOM, {
+    variables: {roomId: id},
     fetchPolicy: "no-cache"
   });
 
-  const childList = data?.child || [];
+  const childList = data?.childrenByRoom.children || [];
 
   return (
     <div className="card bg-white card-rounded w-50">
       <div className="card-header bg-dark text-center">
-        <img src={logo} alt="Classroom Logo" /> {/* Display the logo */}
         <h1>Welcome to Our Classroom!</h1>
       </div>
       <div className="card-body m-5">
@@ -27,7 +31,7 @@ const Room = () => {
             {childList.map((child) => {
               return (
                 <li key={child._id}>
-                  <Link to={{ pathname: `/child/${child._id}` }}>
+                  <Link to={{ pathname: `/Children/${child._id}` }}>
                     {child.name}
                   </Link>
                 </li>

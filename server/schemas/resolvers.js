@@ -1,12 +1,23 @@
-const { Room, Child, Lessons, Documentation } = require("../models");
+const {signToken, AuthenticationError } = require("../utils/auth");
+const { Room, Child, Lessons, Documentation, User } = require("../models");
 
 const resolvers = {
   Query: {
+    me: async (parent, args, context) => {
+      
+      if (context.user) {
+        const userData = await User.findOne({_id: context.user._id}).select("-__v -password")
+        return userData
+      }
+      throw AuthenticationError
+    },
     rooms: async ()  => {
       return await Room.find().populate("children");
     },
     childrenByRoom: async (parent, { roomId }) => {
-      return await Child.find({ room: roomId }).populate("documentations");
+      
+      const room = await Room.find({ _id: roomId }).populate({path: "children", populate: {path: "documentations"}});
+      return room[0]
     },
     children: async () => {
       return await Child.find().populate("documentations");
@@ -23,7 +34,34 @@ const resolvers = {
   },
 
   Mutation: {
+    signup: async (parent, { username, email, password }) => {
+      const user = await User.create({ username, email, password })
+      user.rooms = await Room.create({ name: `${user.username}'s Room`})
+      await user.save()
+      const returnUser = await User.find({_id: user._id}).populate("rooms")
+    
+      const token = signToken(returnUser)
+      
+      return {token, user: returnUser[0]}
 
+    },
+    login: async (parent, { email, password }) => {
+      const user = await User.findOne({ email }).populate("rooms");
+      
+      if (!user) {
+        throw AuthenticationError
+      
+      };
+
+      const isCorrectPassword = await user.isCorrectPassword(password)
+
+      if (!isCorrectPassword) {
+        throw AuthenticationError
+      };
+      
+      const token = signToken(user)
+      return {token, user}
+    },
     createRoom: async (parent, args) => {
       const room = await Room.create(args);
       return room;

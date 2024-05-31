@@ -4,10 +4,17 @@ const roomSchema = new Schema({
   name: {
     type: String,
     required: true,
-    unique: true
+    unique: true,
   },
   children: [{ type: Schema.Types.ObjectId, ref: 'Child' }],
-});
+}, 
+{
+  toJSON: {
+    virtuals: true
+  }
+}
+
+);
 
 const Room = model('Room', roomSchema);
 
