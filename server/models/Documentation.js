@@ -24,8 +24,6 @@ const documentationSchema = new Schema({
   },
 });
 
-
-
 const Documentation = model("Documentation", documentationSchema);
 
 module.exports = Documentation;
