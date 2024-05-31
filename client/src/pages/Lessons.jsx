@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 
 const Lessons = () => {
@@ -33,7 +34,27 @@ const Lessons = () => {
 
   return (
     <div>
-      <h1>Lessons for Kids</h1>
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          placeholder="Title"
+          value={newLesson.title}
+          onChange={e => setNewLesson({ ...newLesson, title: e.target.value })}
+        />
+        <input
+          type="text"
+          placeholder="Description"
+          value={newLesson.description}
+          onChange={e => setNewLesson({ ...newLesson, description: e.target.value })}
+        />
+        <input
+          type="text"
+          placeholder="Goal"
+          value={newLesson.goal}
+          onChange={e => setNewLesson({ ...newLesson, goal: e.target.value })}
+        />
+        <button type="submit">Submit</button>
+      </form>
       <input
         type="text"
         placeholder="Search lessons"
@@ -53,7 +74,7 @@ const Lessons = () => {
         <div key={lesson.id}>
           <h2>{lesson.title}</h2>
           <p>{lesson.description}</p>
-          <video src={lesson.videoUrl} controls />
+          <p>Goal: {lesson.goal}</p>
           <button onClick={() => handleComplete(lesson.id)}>
             {lesson.completed ? "Mark as uncompleted" : "Mark as completed"}
           </button>
