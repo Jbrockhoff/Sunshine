@@ -74,8 +74,6 @@ const Documentation = () => {
           actual content.
         </p>
       </div>
-
-    </div>
   );
 };
 

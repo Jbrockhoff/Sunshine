@@ -52,7 +52,6 @@ type Room {
   input UpdateLessonInput {
     title: String
     note: String
-    goals: String
   }
 
   input UpdateDocumentationInput {
