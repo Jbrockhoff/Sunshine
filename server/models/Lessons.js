@@ -1,4 +1,4 @@
-const { Schema, model } = require('mongoose');
+const { Schema, model } = require("mongoose");
 
 const lessonsSchema = new Schema({
   title: {
@@ -9,7 +9,7 @@ const lessonsSchema = new Schema({
     type: String,
     required: true,
   },
-    goals: {
+  goals: {
     type: String,
     required: false,
   },
