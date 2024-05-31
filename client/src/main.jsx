@@ -19,7 +19,7 @@ const router = createBrowserRouter([
         element: <Signin />,
       },
         {
-          path: '/Children/:id',
+          path: '/Children/:id?',
           element: <Children />
         },
         {

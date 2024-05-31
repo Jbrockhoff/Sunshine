@@ -61,4 +61,15 @@ query Documentations {
   }
 }
 `
+export const QUERY_ME = gql`
+query Me {
+  me {
+    username
+    rooms {
+      _id
+    }
+    _id
+  }
+}
+`
 ;

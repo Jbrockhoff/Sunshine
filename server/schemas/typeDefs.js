@@ -63,6 +63,7 @@ type Room {
   }
 
   type Query {
+    me: User
     rooms: [Room]
     childrenByRoom(roomId: ID!) : Room
     children: [Child]

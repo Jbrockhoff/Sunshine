@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { SIGNUP, LOGIN } from "../utils/mutations";
-import { useMutation } from "@apollo/client"
+import { useMutation } from "@apollo/client";
+import Auth from "../utils/auth"
 
 const Signin = () => {
   const [loginState, setLoginState] = useState({
@@ -14,11 +15,13 @@ const Signin = () => {
   });
   const [login] = useMutation(LOGIN);
   const [signup] = useMutation(SIGNUP);
+
   const handleLogin = async (event) => {
     event.preventDefault();
     const {data} = await login({ 
         variables: {...loginState}
     })
+    Auth.login(data.login.token)
     window.location.assign(`/Room/${data?.login.user.rooms[0]._id}`)
   };
   const handleSignup = async (event) => {
@@ -26,6 +29,7 @@ const Signin = () => {
     const {data} = await signup({
         variables: {...signupState}
     })
+    Auth.login(data.signup.token)
     window.location.assign(`/Room/${data?.signup.user.rooms[0]._id}`)
   };
 
