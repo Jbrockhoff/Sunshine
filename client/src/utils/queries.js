@@ -72,4 +72,24 @@ export const QUERY_ME = gql`
       _id
     }
   }
-`;
+
+}
+`
+;
+export const QUERY_CHILDREN =gql `
+query Children {
+  children {
+    _id
+    birthday
+    documentations {
+      _id
+      createdAt
+      domain
+      goals
+      note
+    }
+    name
+    primaryContact
+  }
+}`
+;
