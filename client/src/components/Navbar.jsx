@@ -4,6 +4,7 @@ import { useQuery } from "@apollo/client";
 import { QUERY_ME } from "../utils/queries";
 
 export const Navbar = () => {
+
     const location = useLocation();
     const {data, loading} = useQuery(QUERY_ME)
     console.log(data)
@@ -27,8 +28,9 @@ export const Navbar = () => {
                 <Link to='/Lessons'>My Lessons</Link>
             </li>
         </ul>
-    </nav>
-)
-} 
 
-export default Navbar
+    </nav>
+  );
+};
+
+export default Navbar;

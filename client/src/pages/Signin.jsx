@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { SIGNUP, LOGIN } from "../utils/mutations";
 import { useMutation } from "@apollo/client";
 import Auth from "../utils/auth"
+
 const Signin = () => {
   const [loginState, setLoginState] = useState({
     email: "",
@@ -17,19 +18,19 @@ const Signin = () => {
 
   const handleLogin = async (event) => {
     event.preventDefault();
-    const {data} = await login({ 
-        variables: {...loginState}
-    })
-    Auth.login(data.login.token)
-    window.location.assign(`/Room/${data?.login.user.rooms[0]._id}`)
+    const { data } = await login({
+      variables: { ...loginState },
+    });
+    Auth.login(data.login.token);
+    window.location.assign(`/Room/${data?.login.user.rooms[0]._id}`);
   };
   const handleSignup = async (event) => {
     event.preventDefault();
-    const {data} = await signup({
-        variables: {...signupState}
-    })
-    Auth.login(data.signup.token)
-    window.location.assign(`/Room/${data?.signup.user.rooms[0]._id}`)
+    const { data } = await signup({
+      variables: { ...signupState },
+    });
+    Auth.login(data.signup.token);
+    window.location.assign(`/Room/${data?.signup.user.rooms[0]._id}`);
   };
 
   return (
@@ -79,7 +80,7 @@ const Signin = () => {
         <h2>Sign Up</h2>
 
         <form onSubmit={handleSignup}>
-        <label>
+          <label>
             Username:
             <input
               name="username"
