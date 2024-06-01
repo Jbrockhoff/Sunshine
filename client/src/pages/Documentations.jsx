@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 
-const Documentation = () => {
+const Documentations = () => {
   let { id } = useParams();
   const [kid, setKid] = useState('');
   const [description, setDescription] = useState('');
@@ -75,8 +75,8 @@ const Documentation = () => {
         </p>
       </div>
 
-    </div>
+    // </div>
   );
 };
 
-export default Documentation;
+export default Documentations;
