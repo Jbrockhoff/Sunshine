@@ -5,7 +5,7 @@ import App from "./App.jsx";
 import Room from "./pages/Room";
 import Children from "./pages/Children";
 import Lessons from "./pages/Lessons";
-import Documentation from "./pages/Documentation";
+import Documentations from "./pages/Documentations";
 import Signin from "./pages/Signin";
 
 const router = createBrowserRouter([
@@ -23,8 +23,8 @@ const router = createBrowserRouter([
         element: <Children />,
       },
       {
-        path: "/Documentation",
-        element: <Documentation />,
+        path: "/Documentations",
+        element: <Documentations />,
       },
       {
         path: "/Lessons",

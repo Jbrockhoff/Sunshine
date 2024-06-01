@@ -19,8 +19,11 @@ const resolvers = {
       const room = await Room.find({ _id: roomId }).populate({path: "children", populate: {path: "documentations"}});
       return room[0]
     },
+    child: async (parent, {childId}) => {
+      return await Child.findOne({_id: childId}).populate({path: "documentations", path: "room"});
+    },
     children: async () => {
-      return await Child.find().populate("documentations");
+      return await Child.find().populate({path: "documentations", path: "room"});
     },
     lessons: async () => {
       return await Lessons.find();
@@ -79,7 +82,12 @@ const resolvers = {
         {
           new: true
         }
-      )
+      );
+      const child = await Child.findOne({
+        _id: childId
+      })
+      child.room = roomId
+      child.save()
       return room
     },
     createChild: async (parent, { roomId, name, birthday, primaryContact }) => {
