@@ -6,6 +6,7 @@ import { QUERY_ME } from "../utils/queries";
 export const Navbar = () => {
     const location = useLocation();
     const {data, loading} = useQuery(QUERY_ME)
+    console.log(data)
     if (location.pathname === "/") {
         return <div></div>
     }
@@ -14,7 +15,7 @@ export const Navbar = () => {
     <nav>
         <ul>
             <li>
-                <Link to={`/Room/${data ? data.me.rooms[0]._id : ''}`}>My Room</Link>
+                <Link to={`/Room/${data ? data.me?.rooms[0]._id : ''}`}>My Room</Link>
             </li>
             <li>
                 <Link to='/Children/'>All Children</Link>
