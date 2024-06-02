@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 
-const Documentation = ({ children }) => {
+import React, { useState } from 'react';
+import { useParams } from 'react-router-dom';
+
+const Documentations = () => {
   let { id } = useParams();
   const [child, setChild] = useState("");
   const [domain, setDomain] = useState("");
@@ -76,4 +79,4 @@ const Documentation = ({ children }) => {
   );
 };
 
-export default Documentation;
+export default Documentations;

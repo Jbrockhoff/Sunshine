@@ -5,7 +5,7 @@ import App from "./App.jsx";
 import Room from "./pages/Room";
 import Children from "./pages/Children";
 import Lessons from "./pages/Lessons";
-import Documentation from "./pages/Documentation";
+import Documentations from "./pages/Documentations";
 import Signin from "./pages/Signin";
 
 const childrenData = [
@@ -26,8 +26,8 @@ const router = createBrowserRouter([
         element: <Children />,
       },
       {
-        path: "/Documentation",
-        element: <Documentation children={childrenData}/>,
+        path: "/Documentations",
+        element: <Documentations children={childrenData}/>,
       },
       {
         path: "/Lessons",

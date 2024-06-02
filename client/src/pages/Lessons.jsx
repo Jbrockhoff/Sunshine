@@ -12,7 +12,6 @@ const Lessons = () => {
     e.preventDefault()
     console.log("submit")
   }
-
   return (
     <div>
       <form onSubmit={handleSubmit}>
@@ -42,5 +41,4 @@ const Lessons = () => {
     </div>
   );
 };
-
 export default Lessons;

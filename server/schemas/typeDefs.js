@@ -65,6 +65,7 @@ type Room {
     me: User
     rooms: [Room]
     childrenByRoom(roomId: ID!) : Room
+    child(childId: ID!): Child
     children: [Child]
     lessons: [Lesson]
     documentation(_id: ID!) : Documentation
