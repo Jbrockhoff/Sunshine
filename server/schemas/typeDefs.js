@@ -34,13 +34,15 @@ type Room {
     date: String!
   }
 
+  scalar Date
+
   type Documentation {
     _id: ID!
     child: Child
     domain: String!
     note: String!
     goals: String!
-    createdAt: String!
+    createdAt: Date!
   }
 
   input UpdateChildInput {

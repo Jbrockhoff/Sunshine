@@ -1,5 +1,6 @@
+
 export const Documentation = ({documentation}) => {
-    <div>
+   return ( <div className="bg-white">
         <p>
             Domain: {documentation.domain}
         </p>
@@ -13,5 +14,6 @@ export const Documentation = ({documentation}) => {
             Created at: {documentation.createdAt}
         </p>
     </div>
+   )
 }
 export default Documentation
