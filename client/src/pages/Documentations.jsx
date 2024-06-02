@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useQuery, useMutation } from "@apollo/client";
 import { QUERY_CHILDREN, QUERY_DOCUMENTATIONS } from "../utils/queries";
-import { CREATE_DOCUMENTATION } from "../utils/mutations";
+import { CREATE_DOCUMENTATION, DELETE_DOCUMENTATION } from "../utils/mutations";
 import Documentation from "../components/Documentation";
 
 const Documentations = () => {
@@ -15,6 +15,7 @@ const Documentations = () => {
   const { data: childData } = useQuery(QUERY_CHILDREN);
   const { data, loading } = useQuery(QUERY_DOCUMENTATIONS);
   const [createDocumentation] = useMutation(CREATE_DOCUMENTATION);
+  const [deleteDocumentation] = useMutation(DELETE_DOCUMENTATION);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -37,6 +38,13 @@ const Documentations = () => {
     setNote('');
     setGoals('');
     setError(null);
+  }
+  const handleDelete = async (id) => {
+    console.log(id)
+    await deleteDocumentation({
+      variables: {id: id},
+      refetchQueries: [QUERY_DOCUMENTATIONS, "documentations"],
+    })
   };
 
   return (
@@ -83,7 +91,10 @@ const Documentations = () => {
       </div>
       <div className="bg-white">
         {data?.documentations.map((doc) => (
-          <Documentation key={doc._id} documentation={doc} />
+         <div>
+         <Documentation key={doc._id} documentation={doc} />
+         <button onClick={() => handleDelete(doc._id)}>Delete</button>
+          </div>
         ))}
       </div>
     </>
