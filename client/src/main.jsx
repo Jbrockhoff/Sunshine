@@ -8,6 +8,9 @@ import Lessons from "./pages/Lessons";
 import Documentations from "./pages/Documentations";
 import Signin from "./pages/Signin";
 
+const childrenData = [
+];
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -24,7 +27,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/Documentations",
-        element: <Documentations />,
+        element: <Documentations children={childrenData}/>,
       },
       {
         path: "/Lessons",
