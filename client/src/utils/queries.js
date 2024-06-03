@@ -35,6 +35,10 @@ export const QUERY_DOCUMENTATION = gql`
   query Documentation($id: ID!) {
     documentation(_id: $id) {
       _id
+      child {
+        name
+        _id
+      }
       domain
       note
       goals
@@ -47,6 +51,10 @@ export const QUERY_DOCUMENTATIONS = gql`
   query Documentations {
     documentations {
       _id
+      child {
+        name
+        _id
+      }
       domain
       note
       goals

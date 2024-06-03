@@ -1,14 +1,16 @@
 import { useQuery, useMutation } from "@apollo/client"
-import { ADD_CHILD_TO_ROOM } from "../utils/mutations"
+import { ADD_CHILD_TO_ROOM, DELETE_CHILD } from "../utils/mutations"
 import { QUERY_ROOMS, QUERY_CHILDREN } from "../utils/queries"
 import { Link } from "react-router-dom"
 import { useState } from "react"
 import Documentation from "./Documentation"
-
+//delete goes here
 export const Child = ({ child }) => {
-    const {data: roomData} = useQuery(QUERY_ROOMS)
-    const [addChildToRoom] = useMutation(ADD_CHILD_TO_ROOM)
-    const [newRoom, setNewRoom] = useState('')
+    const [newRoom, setNewRoom] = useState('');
+    const {data: roomData} = useQuery(QUERY_ROOMS);
+    const [addChildToRoom] = useMutation(ADD_CHILD_TO_ROOM);
+    const [deleteChild] = useMutation(DELETE_CHILD)
+
     const handleAddChildToRoom = async () => {
         if (!newRoom) {
             return
@@ -22,6 +24,13 @@ export const Child = ({ child }) => {
         })
         window.location.reload()
     }
+    const handleDelete = async (id) => {
+        await deleteChild({
+          variables: {id: id},
+          refetchQueries: [QUERY_CHILREN, "children"],
+        })
+      };
+
     return (
         <>
         <div>
@@ -73,11 +82,13 @@ export const Child = ({ child }) => {
                             Add
                         </button>
                         </>
+                        
                     )}
                 </div>
                 </>
             )}
         </div>
+        <button onClick={() => handleDelete(doc._id)}>Delete Child</button>
         </>
     )
 }

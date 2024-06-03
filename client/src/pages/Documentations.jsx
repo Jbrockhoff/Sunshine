@@ -40,7 +40,6 @@ const Documentations = () => {
     setError(null);
   }
   const handleDelete = async (id) => {
-    console.log(id)
     await deleteDocumentation({
       variables: {id: id},
       refetchQueries: [QUERY_DOCUMENTATIONS, "documentations"],
