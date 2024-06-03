@@ -78,7 +78,7 @@ type Room {
     login(email: String!, password: String!): Auth
     signup(email: String!, username: String!, password: String!): Auth
     createRoom(name: String!): Room
-    createChild(room: ID!, name: String!, birthday: String!, primaryContact: String!): Child
+    createChild(name: String!, birthday: String!, primaryContact: String!): Child
     addChildToRoom(roomId: ID!, childId: ID!): Room
     createLesson(title: String!, note: String!, goals: String!): Lesson
     createDocumentation(childId: ID!, domain: String!, note: String!, goals: String!): Documentation

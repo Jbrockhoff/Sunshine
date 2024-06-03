@@ -91,14 +91,12 @@ const resolvers = {
       child.save()
       return room
     },
-    createChild: async (parent, { roomId, name, birthday, primaryContact }) => {
+    createChild: async (parent, { name, birthday, primaryContact }) => {
       const child = await Child.create({
-        room: roomId,
         name,
         birthday,
         primaryContact,
       });
-      await Room.updateOne({_id: roomId}, {$push: {children: child._id}})
       return child;
     },
     createLesson: async (

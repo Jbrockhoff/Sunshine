@@ -26,8 +26,8 @@ export const Child = ({ child }) => {
     }
     const handleDelete = async (id) => {
         await deleteChild({
-          variables: {id: id},
-          refetchQueries: [QUERY_CHILREN, "children"],
+          variables: {childId: id},
+          refetchQueries: [QUERY_CHILDREN, "children"],
         })
       };
 
@@ -88,7 +88,7 @@ export const Child = ({ child }) => {
                 </>
             )}
         </div>
-        <button onClick={() => handleDelete(doc._id)}>Delete Child</button>
+        <button onClick={() => handleDelete(child._id)}>Delete Child</button>
         </>
     )
 }
