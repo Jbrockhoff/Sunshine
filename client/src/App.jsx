@@ -38,7 +38,7 @@ function App() {
         <Header />
         <Navbar />
 
-        <div className="flex-column justify-center align-center min-100-vh">
+        <div className="flex-column min-100-vh">
           <Outlet />
         </div>
         <Footer />

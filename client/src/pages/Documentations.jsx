@@ -33,18 +33,17 @@ const Documentations = () => {
       },
       refetchQueries: [QUERY_DOCUMENTATIONS, "documentations"],
     });
-    setChild('');
-    setDomain('');
-    setNote('');
-    setGoals('');
+    setChild("");
+    setDomain("");
+    setNote("");
+    setGoals("");
     setError(null);
-  }
+  };
   const handleDelete = async (id) => {
-    console.log(id)
     await deleteDocumentation({
-      variables: {id: id},
+      variables: { id: id },
       refetchQueries: [QUERY_DOCUMENTATIONS, "documentations"],
-    })
+    });
   };
 
   return (
@@ -91,9 +90,9 @@ const Documentations = () => {
       </div>
       <div className="bg-white">
         {data?.documentations.map((doc) => (
-         <div>
-         <Documentation key={doc._id} documentation={doc} />
-         <button onClick={() => handleDelete(doc._id)}>Delete</button>
+          <div>
+            <Documentation key={doc._id} documentation={doc} />
+            <button onClick={() => handleDelete(doc._id)}>Delete</button>
           </div>
         ))}
       </div>
