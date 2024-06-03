@@ -20,7 +20,7 @@ export const Children = () => {
   const [childName, setChildName] = useState("");
   const [birthday, setBirthday] = useState("");
   const [primaryContact, setPrimaryContact] = useState("");
-  const [error, setError] = useState("")
+  const [error, setError] = useState("");
 
   const handleAddChild = async (event) => {
     event.preventDefault();
@@ -84,12 +84,8 @@ export const Children = () => {
                     onChange={(e) => setPrimaryContact(e.target.value)}
                   />
                 </label>
-                <button type="submit">
-                  Create
-                </button>
-                {error && (
-                  <p>{error}</p>
-                )}
+                <button type="submit">Create</button>
+                {error && <p>{error}</p>}
               </form>
             )}
           </div>
