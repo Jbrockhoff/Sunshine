@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 
-const Documentations = () => {
+const Documentations = ({children}) => {
   let { id } = useParams();
   const [child, setChild] = useState("");
   const [domain, setDomain] = useState("");

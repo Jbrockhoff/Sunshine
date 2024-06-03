@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { SIGNUP, LOGIN } from "../utils/mutations";
 import { useMutation } from "@apollo/client";
 import Auth from "../utils/auth"
+import "./Signin.module.css";
 
 const Signin = () => {
   const [loginState, setLoginState] = useState({
