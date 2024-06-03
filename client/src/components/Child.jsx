@@ -3,6 +3,7 @@ import { ADD_CHILD_TO_ROOM } from "../utils/mutations"
 import { QUERY_ROOMS, QUERY_CHILDREN } from "../utils/queries"
 import { Link } from "react-router-dom"
 import { useState } from "react"
+import Documentation from "./Documentation"
 
 export const Child = ({ child }) => {
     const {data: roomData} = useQuery(QUERY_ROOMS)

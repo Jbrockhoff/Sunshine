@@ -7,9 +7,7 @@ import Children from "./pages/Children";
 import Lessons from "./pages/Lessons";
 import Documentations from "./pages/Documentations";
 import Signin from "./pages/Signin";
-
-const childrenData = [
-];
+import { StrictMode } from "react";
 
 const router = createBrowserRouter([
   {
@@ -27,7 +25,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/Documentations",
-        element: <Documentations children={childrenData}/>,
+        element: <Documentations />,
       },
       {
         path: "/Lessons",
@@ -42,5 +40,7 @@ const router = createBrowserRouter([
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <RouterProvider router={router} />
+  <StrictMode>
+    <RouterProvider router={router} />
+  </StrictMode>
 );

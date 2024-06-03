@@ -20,19 +20,20 @@ const resolvers = {
       return room[0]
     },
     child: async (parent, {childId}) => {
-      return await Child.findOne({_id: childId}).populate({path: "documentations", path: "room"});
+      return await Child.findOne({_id: childId}).populate('documentations').populate('room')
     },
     children: async () => {
-      return await Child.find().populate({path: "documentations", path: "room"});
+      const children = await Child.find().populate('documentations').populate('room');
+      return children
     },
     lessons: async () => {
       return await Lessons.find();
     },
     documentation: async (parent, { _id }) => {
-      return await Documentation.find({ _id }).populate("child");
+      return await Documentation.findOne({ _id }).populate('child');
     },
     documentations: async () => {
-      return await Documentation.find().populate({path: "child"})
+      return await Documentation.find().populate('child')
     }
   },
 
@@ -121,11 +122,15 @@ const resolvers = {
         note,
         goals,
       });
+      console.log(newDocumentation)
       await Child.findOneAndUpdate(
         {
           _id: childId
         },
-        {$addToSet: {documentations: newDocumentation._id}}
+        {$addToSet: {documentations: newDocumentation._id}}, {
+          new: true
+        }
+      
       )
       return newDocumentation;
     },
