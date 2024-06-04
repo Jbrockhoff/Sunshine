@@ -2,6 +2,7 @@ import { Link, useLocation } from "react-router-dom";
 import "./navbar.css";
 import { useQuery } from "@apollo/client";
 import { QUERY_ME } from "../utils/queries";
+import Auth from "../utils/auth"
 
 export const Navbar = () => {
   const location = useLocation();
@@ -25,6 +26,10 @@ export const Navbar = () => {
         <li>
           <Link to="/Lessons">My Lessons</Link>
         </li>
+        {data?.me && (
+        <li>
+            <a onClick={() => Auth.logout()}>Logout</a>
+        </li>)}
       </ul>
     </nav>
   );
