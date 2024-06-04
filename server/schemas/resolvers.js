@@ -1,110 +1,110 @@
-const {signToken, AuthenticationError } = require("../utils/auth");
+const { signToken, AuthenticationError } = require("../utils/auth");
 const { Room, Child, Lessons, Documentation, User } = require("../models");
 
 const resolvers = {
   Query: {
     me: async (parent, args, context) => {
-      
       if (context.user) {
-        const userData = await User.findOne({_id: context.user._id}).select("-__v -password")
-        return userData
+        const userData = await User.findOne({ _id: context.user._id }).select(
+          "-__v -password"
+        );
+        return userData;
       }
-      throw AuthenticationError
+      throw AuthenticationError;
     },
-    rooms: async ()  => {
+    rooms: async () => {
       return await Room.find().populate("children");
     },
     childrenByRoom: async (parent, { roomId }) => {
-      
-      const room = await Room.find({ _id: roomId }).populate({path: "children", populate: {path: "documentations"}});
-      return room[0]
+      const room = await Room.find({ _id: roomId }).populate({
+        path: "children",
+        populate: { path: "documentations" },
+      });
+      return room[0];
     },
-    child: async (parent, {childId}) => {
-      return await Child.findOne({_id: childId}).populate('documentations').populate('room')
+    child: async (parent, { childId }) => {
+      return await Child.findOne({ _id: childId })
+        .populate("documentations")
+        .populate("room");
     },
     children: async () => {
-      const children = await Child.find().populate('documentations').populate('room');
-      return children
+      const children = await Child.find()
+        .populate("documentations")
+        .populate("room");
+      return children;
     },
     lessons: async () => {
       return await Lessons.find();
     },
     documentation: async (parent, { _id }) => {
-      return await Documentation.findOne({ _id }).populate('child');
+      return await Documentation.findOne({ _id }).populate("child");
     },
     documentations: async () => {
-      return await Documentation.find().populate('child')
-    }
+      return await Documentation.find().populate("child");
+    },
   },
 
   Mutation: {
     signup: async (parent, { username, email, password }) => {
-      const user = await User.create({ username, email, password })
-      user.rooms = await Room.create({ name: `${user.username}'s Room`})
-      await user.save()
-      const returnUser = await User.find({_id: user._id}).populate("rooms")
-    
-      const token = signToken(returnUser)
-      
-      return {token, user: returnUser[0]}
+      const user = await User.create({ username, email, password });
+      user.rooms = await Room.create({ name: `${user.username}'s Room` });
+      await user.save();
+      const returnUser = await User.find({ _id: user._id }).populate("rooms");
 
+      const token = signToken(returnUser);
+
+      return { token, user: returnUser[0] };
     },
     login: async (parent, { email, password }) => {
       const user = await User.findOne({ email }).populate("rooms");
-      
-      if (!user) {
-        throw AuthenticationError
-      
-      };
 
-      const isCorrectPassword = await user.isCorrectPassword(password)
+      if (!user) {
+        throw AuthenticationError;
+      }
+
+      const isCorrectPassword = await user.isCorrectPassword(password);
 
       if (!isCorrectPassword) {
-        throw AuthenticationError
-      };
-      
-      const token = signToken(user)
-      return {token, user}
+        throw AuthenticationError;
+      }
+
+      const token = signToken(user);
+      return { token, user };
     },
     createRoom: async (parent, args) => {
       const room = await Room.create(args);
       return room;
     },
-    addChildToRoom: async (parent, {roomId, childId}) => {
+    addChildToRoom: async (parent, { roomId, childId }) => {
       const room = await Room.findOneAndUpdate(
         {
-          _id: roomId
+          _id: roomId,
         },
         {
           $addToSet: {
-            children: childId
-          }
+            children: childId,
+          },
         },
         {
-          new: true
+          new: true,
         }
       );
       const child = await Child.findOne({
-        _id: childId
-      })
-      child.room = roomId
-      child.save()
-      return room
+        _id: childId,
+      });
+      child.room = roomId;
+      child.save();
+      return room;
     },
-    createChild: async (parent, { roomId, name, birthday, primaryContact }) => {
+    createChild: async (parent, { name, birthday, primaryContact }) => {
       const child = await Child.create({
-        room: roomId,
         name,
         birthday,
         primaryContact,
       });
-      await Room.updateOne({_id: roomId}, {$push: {children: child._id}})
       return child;
     },
-    createLesson: async (
-      parent,
-      { title, note, goals }
-    ) => {
+    createLesson: async (parent, { title, note, goals }) => {
       const newLesson = await Lessons.create({
         title,
         note,
@@ -112,26 +112,23 @@ const resolvers = {
       });
       return newLesson;
     },
-    createDocumentation: async (
-      parent,
-      { childId, domain, note, goals }
-    ) => {
+    createDocumentation: async (parent, { childId, domain, note, goals }) => {
       const newDocumentation = await Documentation.create({
         child: childId,
         domain,
         note,
         goals,
       });
-      console.log(newDocumentation)
+      console.log(newDocumentation);
       await Child.findOneAndUpdate(
         {
-          _id: childId
+          _id: childId,
         },
-        {$addToSet: {documentations: newDocumentation._id}}, {
-          new: true
+        { $addToSet: { documentations: newDocumentation._id } },
+        {
+          new: true,
         }
-      
-      )
+      );
       return newDocumentation;
     },
     updateRoom: async (_, { roomId, updatedData }) => {
@@ -152,9 +149,13 @@ const resolvers = {
       }
     },
 
-    updateChild: async (parent, { _id, updateChildInput}) => {
+    updateChild: async (parent, { _id, updateChildInput }) => {
       try {
-        const child = await Child.findByIdAndUpdate(_id, {...updateChildInput}, {new: true});
+        const child = await Child.findByIdAndUpdate(
+          _id,
+          { ...updateChildInput },
+          { new: true }
+        );
         if (!child) {
           throw new Error("Child not found");
         }
@@ -184,7 +185,11 @@ const resolvers = {
     },
     updateDocumentation: async (_, { _id, updatedData }) => {
       try {
-        const updatedDocumentation = await Documentation.findByIdAndUpdate(_id, {...updatedData}, {new: true});
+        const updatedDocumentation = await Documentation.findByIdAndUpdate(
+          _id,
+          { ...updatedData },
+          { new: true }
+        );
 
         if (!updatedDocumentation) {
           throw new Error("Document not found");
@@ -227,7 +232,7 @@ const resolvers = {
       } catch (error) {
         throw new Error(`Error deleting document: ${error.message}`);
       }
-    }
+    },
   },
 };
 

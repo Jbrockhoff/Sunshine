@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { SIGNUP, LOGIN } from "../utils/mutations";
 import { useMutation } from "@apollo/client";
+
 import Auth from "../utils/auth"
 import "./Signin.css";
+
 
 const Signin = () => {
   const [loginState, setLoginState] = useState({
@@ -73,7 +75,9 @@ const Signin = () => {
               required
             />
           </label>
-          <button className="sgn-btn" type="submit">Sign In</button>
+          <button className="sgn-btn" type="submit">
+            Sign In
+          </button>
         </form>
       </div>
 
@@ -131,7 +135,9 @@ const Signin = () => {
               required
             />
           </label>
-          <button className="sgn-btn" type="submit">Sign In</button>
+          <button className="sgn-btn" type="submit">
+            Sign In
+          </button>
         </form>
       </div>
     </>

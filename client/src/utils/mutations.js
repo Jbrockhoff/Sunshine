@@ -40,13 +40,11 @@ export const CREATE_ROOM = gql`
 `;
 export const CREATE_CHILD = gql`
   mutation CreateChild(
-    $room: ID!
     $name: String!
     $birthday: String!
     $primaryContact: String!
   ) {
     createChild(
-      room: $room
       name: $name
       birthday: $birthday
       primaryContact: $primaryContact

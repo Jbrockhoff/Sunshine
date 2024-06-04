@@ -1,12 +1,12 @@
-import { Link, useParams } from 'react-router-dom';
-import { useQuery } from '@apollo/client';
-import { QUERY_CHILDREN_BY_ROOM } from '../utils/queries';
+import { Link, useParams } from "react-router-dom";
+import { useQuery } from "@apollo/client";
+import { QUERY_CHILDREN_BY_ROOM } from "../utils/queries";
 
 const Room = () => {
-  const {id} = useParams()
+  const { id } = useParams();
   const { loading, data } = useQuery(QUERY_CHILDREN_BY_ROOM, {
-    variables: {roomId: id},
-    fetchPolicy: "no-cache"
+    variables: { roomId: id },
+    fetchPolicy: "no-cache",
   });
 
   const childList = data?.childrenByRoom.children || [];
