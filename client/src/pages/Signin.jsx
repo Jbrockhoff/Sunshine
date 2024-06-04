@@ -134,7 +134,7 @@ const Signin = () => {
             />
           </label>
           <button className="sgn-btn" type="submit">
-            Sign In
+            Sign Up
           </button>
         </form>
       </div>
