@@ -1,6 +1,7 @@
 import { Link, useParams } from "react-router-dom";
 import { useQuery } from "@apollo/client";
 import { QUERY_CHILDREN_BY_ROOM } from "../utils/queries";
+import "./Rooms.css";
 
 const Room = () => {
   const { id } = useParams();
