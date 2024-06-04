@@ -18,8 +18,10 @@ This app will provide preschool teachers and in-home daycare workers a tool for 
 
 ## Usage
 Here is the link to the GitHub Repository for this application:
+https://github.com/Jbrockhoff/Sunshine
 
 Here is the link to the deployed appilcation:
+https://sunshine-hgzu.onrender.com/
 
 Here are screenshots of the function application:
  ![login](./assets/login.png)

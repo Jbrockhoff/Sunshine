@@ -18,7 +18,7 @@ const Room = () => {
         <h1>Welcome to Our Classroom!</h1>
       </div>
       <div className="card-body m-5">
-        <h2>Here is a list of students in the class:</h2>
+        <h2>Students:</h2>
         {loading ? (
           <div>Loading...</div>
         ) : (

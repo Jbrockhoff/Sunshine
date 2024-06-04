@@ -31,6 +31,7 @@ type Room {
     _id: ID!
     title: String!
     note: String!
+    goals: String!
     date: String!
   }
 

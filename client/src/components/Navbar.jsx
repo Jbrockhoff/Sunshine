@@ -1,8 +1,8 @@
 import { Link, useLocation } from "react-router-dom";
-import "./navbar.css";
 import { useQuery } from "@apollo/client";
 import { QUERY_ME } from "../utils/queries";
 import Auth from "../utils/auth"
+import "./navbar.css";
 
 export const Navbar = () => {
   const location = useLocation();
