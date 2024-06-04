@@ -27,6 +27,7 @@ export const QUERY_LESSONS = gql`
       _id
       date
       title
+      goals
       note
     }
   }

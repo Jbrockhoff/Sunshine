@@ -71,6 +71,7 @@ export const CREATE_LESSON = gql`
     createLesson(title: $title, note: $note, goals: $goals) {
       title
       note
+      goals
       date
     }
   }
