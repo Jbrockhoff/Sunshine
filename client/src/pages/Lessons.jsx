@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useQuery, useMutation } from "@apollo/client";
 import { QUERY_LESSONS } from "../utils/queries";
 import { CREATE_LESSON, DELETE_LESSON } from "../utils/mutations";
+import "./Lesson.css"
 
 const Lessons = () => {
   const { data, loading } = useQuery(QUERY_LESSONS);
@@ -74,9 +75,9 @@ const Lessons = () => {
       <div className="bg-white">
         {data?.lessons.map((lesson) => (
           <div>
-            <p> Lesson: {lesson.title}</p>
-            <p> {lesson.note}</p>
-            <p> {lesson.goals}</p>
+            <p className="text-dark"> Lesson: {lesson.title}</p>
+            <p className="text-dark">  {lesson.note}</p>
+            <p className="text-dark"> {lesson.goals}</p>
             <button onClick={() => handleDelete(lesson._id)}>Delete</button>
           </div>
         ))}

@@ -1,0 +1,13 @@
+.documentation-container {
+    border: 1px solid #ccc;
+  }
+  
+  .documentation-title {
+    color: #333;
+    font-size: 1.2em;
+  }
+  
+  .documentation-info {
+    color: #666;
+    font-size: 1em;
+  }

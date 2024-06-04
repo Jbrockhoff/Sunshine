@@ -1,0 +1,13 @@
+.child-container {
+    margin-top: 10px; /* Adjust the top margin as needed */
+  }
+  
+  .child-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .child-actions {
+    margin-top: 20px; /* Adjust the top margin for the actions section */
+  }

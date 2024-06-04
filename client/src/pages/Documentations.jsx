@@ -4,6 +4,8 @@ import { useQuery, useMutation } from "@apollo/client";
 import { QUERY_CHILDREN, QUERY_DOCUMENTATIONS } from "../utils/queries";
 import { CREATE_DOCUMENTATION, DELETE_DOCUMENTATION } from "../utils/mutations";
 import Documentation from "../components/Documentation";
+import "./Documentation.css"
+
 
 const Documentations = () => {
   let { id } = useParams();
