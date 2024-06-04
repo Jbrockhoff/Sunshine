@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useQuery, useMutation} from "@apollo/client"
 import { QUERY_LESSONS } from "../utils/queries";
 import { CREATE_LESSON, DELETE_LESSON } from "../utils/mutations"
+import "./Lessons.css";
 
 const Lessons = () => {
 //grab current lessons and render
